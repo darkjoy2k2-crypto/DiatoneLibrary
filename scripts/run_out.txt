@@ -1,0 +1,1 @@
+﻿Konvertierung abgeschlossen: F:\Projekte\DiatoneLibrary\data\import\tabheft.pdf -> F:\Projekte\DiatoneLibrary\data\import\tabheft.txt

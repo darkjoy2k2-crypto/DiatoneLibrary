@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diatone Library</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Login Screen -->
+    <div id="login-screen" class="login-screen">
+        <div class="login-box">
+            <div class="login-logo">
+                <svg width="48" height="48" viewBox="0 0 32 32">
+                    <rect x="4" y="8" width="24" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/>
+                    <line x1="8" y1="10" x2="8" y2="22" stroke="currentColor" stroke-width="1"/>
+                    <line x1="12" y1="10" x2="12" y2="22" stroke="currentColor" stroke-width="1"/>
+                    <line x1="16" y1="10" x2="16" y2="22" stroke="currentColor" stroke-width="1"/>
+                    <line x1="20" y1="10" x2="20" y2="22" stroke="currentColor" stroke-width="1"/>
+                    <line x1="24" y1="10" x2="24" y2="22" stroke="currentColor" stroke-width="1"/>
+                </svg>
+                <span>Diatonic Library</span>
+            </div>
+            <span class="login-beta">Beta-Phase</span>
+            <div class="login-password-wrap">
+                <input type="password" id="login-password" placeholder="Passwort" autocomplete="current-password">
+                <button type="button" id="login-show-pw" title="Passwort anzeigen" tabindex="-1">👁</button>
+            </div>
+            <div id="login-error" class="login-error"></div>
+            <button id="login-btn">Anmelden</button>
+        </div>
+    </div>
+
+    <div id="app" style="display:none;">
+        <header id="header">
+            <div id="logo" class="logo">
+                <svg width="32" height="32" viewBox="0 0 32 32" style="margin-right: 12px;">
+                    <rect x="4" y="8" width="24" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/>
+                    <line x1="8" y1="10" x2="8" y2="22" stroke="currentColor" stroke-width="1"/>
+                    <line x1="12" y1="10" x2="12" y2="22" stroke="currentColor" stroke-width="1"/>
+                    <line x1="16" y1="10" x2="16" y2="22" stroke="currentColor" stroke-width="1"/>
+                    <line x1="20" y1="10" x2="20" y2="22" stroke="currentColor" stroke-width="1"/>
+                    <line x1="24" y1="10" x2="24" y2="22" stroke="currentColor" stroke-width="1"/>
+                </svg>
+                <span>Diatonic<br>Library</span>
+            </div>
+
+            <div id="song-selector">
+                <select id="category-dropdown">
+                    <option value="" disabled selected></option>
+                </select>
+                <select id="songs-dropdown" disabled>
+                    <option value="" disabled selected></option>
+                </select>
+            </div>
+
+            <div class="button-group">
+                <button id="play-btn">▶</button>
+                <button id="pause-btn" style="display: none;">⏸</button>
+                <button id="stop-btn" style="display: none;">⏹</button>
+            </div>
+
+            <div class="spacer"></div>
+
+            <div class="button-group zoom-buttons">
+                <button id="zoom-out-btn">🔍−</button>
+                <button id="zoom-in-btn">🔍+</button>
+            </div>
+
+            <button id="help-btn" class="menu-button">?</button>
+            <button id="settings-btn" class="menu-button">⚙️</button>
+            <button id="menu-btn" class="menu-button">☰</button>
+        </header>
+
+        <div id="menu-overlay" class="menu-overlay" style="display: none;"></div>
+
+        <nav id="settings-menu" class="menu settings-menu" style="display: none;">
+            <div class="menu-content">
+                <h3></h3>
+
+                <div class="setting-item">
+                    <label id="language-label"></label>
+                    <div class="language-flags">
+                        <button type="button" class="flag-btn" data-lang="de" title="Deutsch">
+                            <svg width="20" height="13" viewBox="0 0 5 3">
+                                <rect y="0" width="5" height="1" fill="#000"/>
+                                <rect y="1" width="5" height="1" fill="#D00"/>
+                                <rect y="2" width="5" height="1" fill="#FFCE00"/>
+                            </svg>
+                        </button>
+                        <button type="button" class="flag-btn" data-lang="en" title="English">
+                            <svg width="20" height="13" viewBox="0 0 60 30">
+                                <rect width="60" height="30" fill="#012169"/>
+                                <path d="M0,0 L60,30 M60,0 L0,30" stroke="#FFF" stroke-width="6"/>
+                                <path d="M0,0 L60,30 M60,0 L0,30" stroke="#C8102E" stroke-width="4" clip-path="polygon(0 0, 60 0, 60 30, 0 30)"/>
+                                <path d="M30,0 V30 M0,15 H60" stroke="#FFF" stroke-width="10"/>
+                                <path d="M30,0 V30 M0,15 H60" stroke="#C8102E" stroke-width="6"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="setting-item">
+                    <label id="theme-label"></label>
+                    <div class="theme-toggle-group">
+                        <button type="button" class="theme-btn" data-theme="light" title="Light">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="5"/>
+                                <line x1="12" y1="1" x2="12" y2="3"/>
+                                <line x1="12" y1="21" x2="12" y2="23"/>
+                                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                                <line x1="1" y1="12" x2="3" y2="12"/>
+                                <line x1="21" y1="12" x2="23" y2="12"/>
+                                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                            </svg>
+                        </button>
+                        <button type="button" class="theme-btn" data-theme="dark" title="Dark">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="setting-item">
+                    <label for="notes-toggle" id="notes-label-wrapper"><span id="notes-label"></span></label>
+                    <input type="checkbox" id="notes-toggle" class="toggle">
+                </div>
+
+                <div class="setting-item">
+                    <label id="tonart-label"></label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="tonart" value="C" checked> <span id="tonart-c"></span></label>
+                        <label><input type="radio" name="tonart" value="G"> <span id="tonart-g"></span></label>
+                        <label><input type="radio" name="tonart" value="D"> <span id="tonart-d"></span></label>
+                        <label><input type="radio" name="tonart" value="A"> <span id="tonart-a"></span></label>
+                        <label><input type="radio" name="tonart" value="F"> <span id="tonart-f"></span></label>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <nav id="hamburger-menu" class="menu hamburger-menu" style="display: none;">
+            <div class="menu-content">
+                <h3></h3>
+
+                <div class="rating-section">
+                    <label></label>
+                    <div id="hamburger-rating-stars" class="rating-stars"></div>
+                </div>
+
+                <div class="play-count-section">
+                    <p id="hamburger-play-count"></p>
+                </div>
+
+                <div class="menu-divider"></div>
+
+                <button id="hamburger-youtube-btn" class="menu-item"></button>
+                <button id="hamburger-inventory-btn" class="menu-item"></button>
+            </div>
+        </nav>
+
+        <main id="main-content">
+            <div class="welcome-container" id="welcome-view">
+                <h1></h1>
+                <p></p>
+            </div>
+            <div id="tablature-view" class="tablature-view" style="display: none;">
+                <div id="tablature-container" class="tablature-container"></div>
+            </div>
+            <div id="inventory-view" class="inventory-view" style="display: none;">
+                <div class="inventory-controls">
+                    <button id="filter-all" class="active"></button>
+                    <button id="filter-rated"></button>
+                    <button id="filter-mostplayed"></button>
+                </div>
+                <div id="inventory-container" class="inventory-container"></div>
+            </div>
+            <div id="help-view" class="help-view" style="display: none;">
+                <div class="help-header">
+                    <button id="help-back-btn" class="menu-item"></button>
+                </div>
+                <div id="help-container" class="help-container"></div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Auth (muss als erstes geladen werden) -->
+    <script src="js/core/auth.js"></script>
+
+    <!-- Core Basis-Module (keine Abhängigkeiten) -->
+    <script src="js/core/loader.js"></script>
+    <script src="js/core/data.js"></script>
+    <script src="js/core/audio.js"></script>
+    <script src="js/core/metrics.js"></script>
+    <script src="js/core/i18n.js"></script>
+
+    <!-- State Management (hängt von data ab) -->
+    <script src="js/core/state.js"></script>
+
+    <!-- UI Base (hängt von state und data ab) -->
+    <script src="js/ui/ui.js"></script>
+
+    <!-- UI Controls (hängt von state und ui ab) -->
+    <script src="js/ui/controls.js"></script>
+    <script src="js/ui/inventory.js"></script>
+    <script src="js/ui/menus.js"></script>
+    <script src="js/ui/help.js"></script>
+
+    <!-- Playback (hängt von audio, state, ui ab) -->
+    <script src="js/playback.js"></script>
+
+    <!-- Navigation (hängt von state, playback, ui, data ab) -->
+    <script src="js/ui/navigation.js"></script>
+
+    <!-- Events & Init (hängt von allen anderen ab) -->
+    <script src="js/events.js"></script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+pages_checked=164
+detected_one=91 detected_two=73 marker_mismatches=0
+issues_count=42
+P006 | possible-unstable-two-column | center_chars=79, method=line
+P011 | possible-unstable-two-column | center_chars=46, method=line
+P012 | possible-unstable-two-column | center_chars=95, method=line
+P026 | possible-unstable-two-column | center_chars=124, method=line
+P027 | possible-unstable-two-column | center_chars=71, method=line
+P028 | possible-unstable-two-column | center_chars=161, method=line
+P029 | possible-unstable-two-column | center_chars=110, method=line
+P030 | possible-unstable-two-column | center_chars=86, method=line
+P034 | possible-unstable-two-column | center_chars=119, method=line
+P035 | possible-unstable-two-column | center_chars=96, method=line
+P039 | possible-unstable-two-column | center_chars=190, method=line
+P040 | possible-unstable-two-column | center_chars=65, method=line
+P042 | possible-unstable-two-column | center_chars=168, method=line
+P043 | possible-unstable-two-column | center_chars=69, method=line
+P044 | possible-unstable-two-column | center_chars=112, method=line
+P052 | possible-unstable-two-column | center_chars=141, method=line
+P053 | possible-missed-two-column | left=74, right=155, crossing=1, center_chars=8
+P068 | possible-missed-two-column | left=165, right=68, crossing=1, center_chars=7
+P071 | possible-unstable-two-column | center_chars=172, method=line
+P072 | possible-unstable-two-column | center_chars=81, method=line
+P073 | possible-unstable-two-column | center_chars=67, method=line
+P088 | possible-unstable-two-column | center_chars=46, method=line
+P098 | possible-unstable-two-column | center_chars=54, method=line
+P104 | possible-unstable-two-column | center_chars=40, method=line
+P109 | possible-unstable-two-column | center_chars=42, method=line
+P111 | possible-unstable-two-column | center_chars=95, method=line
+P112 | possible-unstable-two-column | center_chars=50, method=line
+P113 | possible-unstable-two-column | center_chars=75, method=line
+P114 | possible-unstable-two-column | center_chars=65, method=line
+P116 | possible-unstable-two-column | center_chars=75, method=line
+P123 | possible-unstable-two-column | center_chars=81, method=line
+P128 | possible-unstable-two-column | center_chars=57, method=line
+P134 | possible-unstable-two-column | center_chars=48, method=line
+P135 | possible-unstable-two-column | center_chars=49, method=line
+P136 | possible-unstable-two-column | center_chars=78, method=line
+P140 | possible-unstable-two-column | center_chars=43, method=line
+P147 | possible-unstable-two-column | center_chars=95, method=line
+P149 | possible-unstable-two-column | center_chars=62, method=line
+P154 | possible-unstable-two-column | center_chars=42, method=line
+P159 | possible-unstable-two-column | center_chars=85, method=line
+P162 | possible-unstable-two-column | center_chars=137, method=line
+P163 | possible-unstable-two-column | center_chars=100, method=line
