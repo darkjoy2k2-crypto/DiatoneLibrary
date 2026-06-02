@@ -42,6 +42,9 @@ const i18n = {
         helpTitle: "Hilfe",
         backBtn: "← Zurück",
         helpIntro: "Willkommen in der Diatone-Bibliothek! Hier findest du Informationen zur Bedienung.",
+        helpImageAlt: "Hilfe-Abbildung zur Tabulatur",
+        helpNotationTitle: "Tabulatur lesen",
+        helpNotationDesc: "Eine Zahl bedeutet Blasen, z. B. <strong>4</strong>. Eine Zahl in Klammern bedeutet Ziehen, z. B. <strong>(4)</strong>. Eine Zahl in Klammern mit Unterstrich bedeutet Bending, z. B. <strong><span style=\"text-decoration: underline;\">(4)</span></strong>.",
 
         // Help Sections
         uiLayout: "UI Layout",
@@ -63,7 +66,16 @@ const i18n = {
         playbackControlsDesc: "Mit ▶ startest du das Lied ab, mit ⏸ pausierst du, mit ⏹ stoppst du komplett und fängst wieder von vorne an. Die Zoom-Buttons (+/-) vergrößern oder verkleinern die Noten.",
 
         keyboardShortcuts: "Tastatur-Tipps",
-        keyboardShortcutsDesc: "Hard-Refresh (Ctrl+Shift+R) zum Cache löschen. Alle deine Ratings und Play Counts werden in deinem Browser gespeichert."
+        keyboardShortcutsDesc: "Hard-Refresh (Ctrl+Shift+R) zum Cache löschen. Alle deine Ratings und Play Counts werden in deinem Browser gespeichert.",
+
+        // Adaptive UI / Fullscreen
+        devicePhone: "Smartphone",
+        deviceTablet: "Tablet",
+        deviceDesktop: "Browser",
+        orientationPortrait: "Hochformat",
+        orientationLandscape: "Querformat",
+        fullscreenEnter: "Vollbild aktivieren",
+        fullscreenExit: "Vollbild verlassen"
     },
     en: {
         // Dropdown & Placeholders
@@ -108,6 +120,9 @@ const i18n = {
         helpTitle: "Help",
         backBtn: "← Back",
         helpIntro: "Welcome to the Diatone Library! Here you'll find information on how to use the application.",
+        helpImageAlt: "Help illustration for tablature",
+        helpNotationTitle: "How to read tablature",
+        helpNotationDesc: "A number means blow, for example <strong>4</strong>. A number in parentheses means draw, for example <strong>(4)</strong>. A number in parentheses with an underline means bend, for example <strong><span style=\"text-decoration: underline;\">(4)</span></strong>.",
 
         // Help Sections
         uiLayout: "UI Layout",
@@ -129,7 +144,16 @@ const i18n = {
         playbackControlsDesc: "Press ▶ to start playing, ⏸ to pause, ⏹ to stop and restart. The zoom buttons (+/-) enlarge or reduce the notes.",
 
         keyboardShortcuts: "Keyboard Tips",
-        keyboardShortcutsDesc: "Hard-refresh (Ctrl+Shift+R) to clear cache. All your ratings and play counts are stored in your browser."
+        keyboardShortcutsDesc: "Hard-refresh (Ctrl+Shift+R) to clear cache. All your ratings and play counts are stored in your browser.",
+
+        // Adaptive UI / Fullscreen
+        devicePhone: "Phone",
+        deviceTablet: "Tablet",
+        deviceDesktop: "Browser",
+        orientationPortrait: "Portrait",
+        orientationLandscape: "Landscape",
+        fullscreenEnter: "Enter fullscreen",
+        fullscreenExit: "Exit fullscreen"
     }
 };
 

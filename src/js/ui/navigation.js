@@ -79,4 +79,8 @@ function switchView(viewName) {
     if (viewName === 'help') {
         renderHelpView();
     }
+
+    if (typeof updateHeaderVisibility === 'function') {
+        updateHeaderVisibility();
+    }
 }

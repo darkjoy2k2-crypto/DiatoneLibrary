@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Diatone Library</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='4' y='8' width='24' height='16' rx='2' fill='none' stroke='%230f766e' stroke-width='1.8'/%3E%3Cline x1='8' y1='10' x2='8' y2='22' stroke='%230f766e' stroke-width='1'/%3E%3Cline x1='12' y1='10' x2='12' y2='22' stroke='%230f766e' stroke-width='1'/%3E%3Cline x1='16' y1='10' x2='16' y2='22' stroke='%230f766e' stroke-width='1'/%3E%3Cline x1='20' y1='10' x2='20' y2='22' stroke='%230f766e' stroke-width='1'/%3E%3Cline x1='24' y1='10' x2='24' y2='22' stroke='%230f766e' stroke-width='1'/%3E%3C/svg%3E">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -54,7 +55,7 @@
                 </select>
             </div>
 
-            <div class="button-group">
+            <div id="playback-controls" class="button-group">
                 <button id="play-btn">▶</button>
                 <button id="pause-btn" style="display: none;">⏸</button>
                 <button id="stop-btn" style="display: none;">⏹</button>
@@ -62,21 +63,43 @@
 
             <div class="spacer"></div>
 
-            <div class="button-group zoom-buttons">
+            <div id="zoom-controls" class="button-group zoom-buttons">
                 <button id="zoom-out-btn">🔍−</button>
                 <button id="zoom-in-btn">🔍+</button>
             </div>
 
-            <button id="help-btn" class="menu-button">?</button>
-            <button id="settings-btn" class="menu-button">⚙️</button>
+            <button id="fullscreen-btn" class="menu-button" title="Fullscreen">⛶</button>
             <button id="menu-btn" class="menu-button">☰</button>
         </header>
 
         <div id="menu-overlay" class="menu-overlay" style="display: none;"></div>
 
-        <nav id="settings-menu" class="menu settings-menu" style="display: none;">
+        <nav id="hamburger-menu" class="menu hamburger-menu" style="display: none;">
             <div class="menu-content">
-                <h3></h3>
+                <div class="menu-top-row">
+                    <h3></h3>
+                    <button id="hamburger-help-btn" class="menu-help-btn" aria-label="Help" title="Help">?</button>
+                </div>
+
+                <div class="menu-divider"></div>
+
+                <div class="rating-section">
+                    <label></label>
+                    <div id="hamburger-rating-stars" class="rating-stars"></div>
+                </div>
+
+                <div class="play-count-section">
+                    <p id="hamburger-play-count"></p>
+                </div>
+
+                <div class="menu-divider"></div>
+
+                <button id="hamburger-youtube-btn" class="menu-item"></button>
+                <button id="hamburger-inventory-btn" class="menu-item"></button>
+
+                <div class="menu-divider"></div>
+
+                <h3 id="hamburger-settings-heading"></h3>
 
                 <div class="setting-item">
                     <label id="language-label"></label>
@@ -139,26 +162,6 @@
                         <label><input type="radio" name="tonart" value="F"> <span id="tonart-f"></span></label>
                     </div>
                 </div>
-            </div>
-        </nav>
-
-        <nav id="hamburger-menu" class="menu hamburger-menu" style="display: none;">
-            <div class="menu-content">
-                <h3></h3>
-
-                <div class="rating-section">
-                    <label></label>
-                    <div id="hamburger-rating-stars" class="rating-stars"></div>
-                </div>
-
-                <div class="play-count-section">
-                    <p id="hamburger-play-count"></p>
-                </div>
-
-                <div class="menu-divider"></div>
-
-                <button id="hamburger-youtube-btn" class="menu-item"></button>
-                <button id="hamburger-inventory-btn" class="menu-item"></button>
             </div>
         </nav>
 

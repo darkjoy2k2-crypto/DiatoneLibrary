@@ -50,6 +50,7 @@ const toneNames = toneIndexMap.map(t => t.tone);
 
 async function loadSongsFromLibrary() {
   try {
+    const isVerbose = localStorage.getItem('app-debug-loader') === 'true';
     const response = await fetch('library/manifest.json');
     if (!response.ok) {
       console.warn('manifest.json nicht gefunden, verwende nur Test-Lied');
@@ -65,12 +66,16 @@ async function loadSongsFromLibrary() {
         if (songResponse.ok) {
           const songData = await songResponse.json();
           loadedSongs.push(songData);
-          console.log(`Song geladen: ${songData.name}`);
+          if (isVerbose) {
+            console.log(`Song geladen: ${songData.name}`);
+          }
         }
       } catch (error) {
         console.error(`Fehler beim Laden von ${song.file}:`, error);
       }
     }
+
+    console.info(`Songs geladen: ${loadedSongs.length}`);
 
     return loadedSongs;
   } catch (error) {

@@ -2,6 +2,11 @@ function renderHelpView() {
     const container = document.getElementById('help-container');
     container.innerHTML = '';
 
+    const imageWrap = document.createElement('div');
+    imageWrap.className = 'help-hero';
+    imageWrap.innerHTML = `<img src="img/help.png" alt="${t('helpImageAlt')}" class="help-hero-image">`;
+    container.appendChild(imageWrap);
+
     const sections = getHelpSections();
 
     sections.forEach(section => {
@@ -17,6 +22,10 @@ function renderHelpView() {
 
 function getHelpSections() {
     return [
+        {
+            title: t('helpNotationTitle'),
+            content: t('helpNotationDesc')
+        },
         {
             title: t('uiLayout'),
             content: t('uiLayoutDesc')
