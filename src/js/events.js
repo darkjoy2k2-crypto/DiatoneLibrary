@@ -134,24 +134,17 @@ function syncHeaderActionLayout() {
     const fullscreenBtn = document.getElementById('fullscreen-btn');
     const menuBtn = document.getElementById('menu-btn');
 
-    const actionItems = [logo, playbackControls, zoomControls, fullscreenBtn, menuBtn].filter((el) => {
-        return !!el && getComputedStyle(el).display !== 'none';
+    const controls = [logo, playbackControls, zoomControls, fullscreenBtn, menuBtn];
+    if (controls.some((el) => !el || getComputedStyle(el).display === 'none')) return;
+
+    // Decide by real layout rows: if any action wraps below row 1, enforce split scenario.
+    const rowTop = logo.getBoundingClientRect().top;
+    const sameRowTolerance = 6;
+    const wrappedToNextRow = [playbackControls, zoomControls, fullscreenBtn, menuBtn].some((el) => {
+        return Math.abs(el.getBoundingClientRect().top - rowTop) > sameRowTolerance;
     });
 
-    if (!actionItems.length) return;
-
-    const headerStyles = getComputedStyle(header);
-    const paddingX =
-        (parseFloat(headerStyles.paddingLeft) || 0) +
-        (parseFloat(headerStyles.paddingRight) || 0);
-    const gap = parseFloat(headerStyles.columnGap || headerStyles.gap) || 0;
-
-    const requiredWidth =
-        actionItems.reduce((sum, el) => sum + el.offsetWidth, 0) +
-        gap * Math.max(0, actionItems.length - 1);
-    const availableWidth = header.clientWidth - paddingX;
-
-    if (requiredWidth > availableWidth + 1) {
+    if (wrappedToNextRow) {
         header.classList.add('header-actions-split');
     }
 }

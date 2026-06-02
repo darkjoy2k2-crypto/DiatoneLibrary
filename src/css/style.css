@@ -1148,26 +1148,28 @@ select:hover {
     }
 
     .spacer {
-        display: none;
+        display: flex;
+        order: 2;
+        flex: 1 1 auto;
     }
 
     #playback-controls {
-        order: 2;
-        margin-left: auto;
+        order: 3;
+        margin-left: 0;
     }
 
     #zoom-controls,
     #fullscreen-btn {
-        order: 2;
+        order: 3;
     }
 
     #menu-btn {
-        order: 3;
+        order: 4;
     }
 
     /* Dropdowns always below action rows */
     #song-selector {
-        order: 4;
+        order: 5;
         display: grid;
         grid-template-columns: 1fr;
         flex-basis: 100%;
@@ -1175,28 +1177,45 @@ select:hover {
     }
 
     /* Scenario 1: row 1 too narrow => logo + menu in row 1, rest in row 2 */
+    #header.header-actions-split {
+        display: grid;
+        grid-template-columns: 1fr auto auto auto;
+        grid-template-areas:
+            "logo . . menu"
+            ". playback zoom fullscreen"
+            "song song song song";
+        align-items: center;
+    }
+
     #header.header-actions-split #logo {
-        order: 1;
-        flex: 1 1 auto;
+        grid-area: logo;
         min-width: 0;
     }
 
     #header.header-actions-split #menu-btn {
-        order: 1;
+        grid-area: menu;
     }
 
     #header.header-actions-split #playback-controls {
-        order: 2;
-        margin-left: auto;
+        grid-area: playback;
+        margin-left: 0;
     }
 
-    #header.header-actions-split #zoom-controls,
+    #header.header-actions-split #zoom-controls {
+        grid-area: zoom;
+    }
+
     #header.header-actions-split #fullscreen-btn {
-        order: 2;
+        grid-area: fullscreen;
     }
 
     #header.header-actions-split #song-selector {
-        order: 3;
+        grid-area: song;
+        order: initial;
+    }
+
+    #header.header-actions-split .spacer {
+        display: none;
     }
 
     #category-dropdown {
