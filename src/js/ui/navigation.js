@@ -80,6 +80,12 @@ function switchView(viewName) {
         renderHelpView();
     }
 
+    // Reset scroll state when switching views so the header always shows initially
+    if (typeof _headerScroll !== 'undefined') {
+        _headerScroll.prevY = 0;
+        _headerScroll.hideLocked = false;
+        clearTimeout(_headerScroll.lockTimer);
+    }
     if (typeof updateHeaderVisibility === 'function') {
         updateHeaderVisibility();
     }

@@ -34,6 +34,9 @@ function attachEventListeners() {
     attachMenuListeners();
 }
 
+// --- Header auto-hide state ---
+const _headerScroll = { prevY: 0, hideLocked: false, lockTimer: null };
+
 function getCurrentScrollTop() {
     const mainContent = document.getElementById('main-content');
     const scrollCandidates = [
@@ -55,8 +58,33 @@ function updateHeaderVisibility() {
     const header = document.getElementById('header');
     if (!header) return;
 
-    const isAtTop = getCurrentScrollTop() <= 2;
-    header.classList.toggle('is-hidden', !isAtTop);
+    const currentY = getCurrentScrollTop();
+    const isHidden = header.classList.contains('is-hidden');
+
+    if (!isHidden) {
+        // Hide when user scrolls DOWN past threshold
+        if (currentY > _headerScroll.prevY && currentY > 40) {
+            header.classList.add('is-hidden');
+            // Lock for 400 ms to absorb layout-reflow scroll events
+            _headerScroll.hideLocked = true;
+            clearTimeout(_headerScroll.lockTimer);
+            _headerScroll.lockTimer = setTimeout(() => {
+                _headerScroll.hideLocked = false;
+            }, 400);
+        }
+    } else {
+        // Ignore position changes caused by layout reflow during lock period
+        if (_headerScroll.hideLocked) {
+            _headerScroll.prevY = currentY;
+            return;
+        }
+        // Re-show only when user scrolls UP back to near top
+        if (currentY < _headerScroll.prevY && currentY <= 8) {
+            header.classList.remove('is-hidden');
+        }
+    }
+
+    _headerScroll.prevY = currentY;
 }
 
 function attachHeaderAutoHideListeners() {
@@ -73,7 +101,6 @@ function attachHeaderAutoHideListeners() {
     });
 
     window.addEventListener('scroll', updateHeaderVisibility, { passive: true });
-    window.addEventListener('touchmove', updateHeaderVisibility, { passive: true });
 }
 
 function getOrientationMode() {

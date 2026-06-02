@@ -1008,7 +1008,7 @@ body {
 }
 
 #song-selector {
-    order: 2;
+    order: 4;
     display: flex;
     gap: 6px;
     flex: 1 1 100%;
@@ -1021,20 +1021,18 @@ body {
 }
 
 .button-group {
-    order: 4;
+    order: 3;
 }
 
 .spacer {
-    display: none;
-}
-
-#playback-controls {
-    margin-left: auto;
+    display: flex;
+    order: 2;
+    flex: 1 1 auto;
 }
 
 #fullscreen-btn,
 #menu-btn {
-    order: 4;
+    order: 3;
 }
 
 select,
@@ -1151,15 +1149,11 @@ select:hover {
     #zoom-controls,
     #fullscreen-btn,
     #menu-btn {
-        order: 1;
-    }
-
-    #playback-controls {
-        margin-left: auto;
+        order: 3;
     }
 
     #song-selector {
-        order: 2;
+        order: 4;
         display: grid;
         grid-template-columns: 1fr;
         flex-basis: 100%;
