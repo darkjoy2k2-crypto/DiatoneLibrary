@@ -119,6 +119,43 @@ function getDeviceMode() {
     return 'desktop';
 }
 
+function syncHeaderActionLayout() {
+    const header = document.getElementById('header');
+    if (!header) return;
+
+    // Two-scenario logic is only needed on smartphone portrait.
+    const isPhonePortrait = window.matchMedia('(max-width: 785px) and (orientation: portrait)').matches;
+    header.classList.remove('header-actions-split');
+    if (!isPhonePortrait) return;
+
+    const logo = document.getElementById('logo');
+    const playbackControls = document.getElementById('playback-controls');
+    const zoomControls = document.getElementById('zoom-controls');
+    const fullscreenBtn = document.getElementById('fullscreen-btn');
+    const menuBtn = document.getElementById('menu-btn');
+
+    const actionItems = [logo, playbackControls, zoomControls, fullscreenBtn, menuBtn].filter((el) => {
+        return !!el && getComputedStyle(el).display !== 'none';
+    });
+
+    if (!actionItems.length) return;
+
+    const headerStyles = getComputedStyle(header);
+    const paddingX =
+        (parseFloat(headerStyles.paddingLeft) || 0) +
+        (parseFloat(headerStyles.paddingRight) || 0);
+    const gap = parseFloat(headerStyles.columnGap || headerStyles.gap) || 0;
+
+    const requiredWidth =
+        actionItems.reduce((sum, el) => sum + el.offsetWidth, 0) +
+        gap * Math.max(0, actionItems.length - 1);
+    const availableWidth = header.clientWidth - paddingX;
+
+    if (requiredWidth > availableWidth + 1) {
+        header.classList.add('header-actions-split');
+    }
+}
+
 function updateAdaptiveUiContext() {
     const device = getDeviceMode();
     const orientation = getOrientationMode();
@@ -131,6 +168,8 @@ function updateAdaptiveUiContext() {
     body.classList.remove('orientation-portrait', 'orientation-landscape');
     body.classList.add(`device-${device}`);
     body.classList.add(`orientation-${orientation}`);
+
+    syncHeaderActionLayout();
 }
 
 function syncFullscreenButtonState() {
@@ -149,6 +188,8 @@ function syncFullscreenButtonState() {
     fullscreenBtn.classList.toggle('is-active', isFullscreen);
     fullscreenBtn.title = isFullscreen ? t('fullscreenExit') : t('fullscreenEnter');
     fullscreenBtn.setAttribute('aria-label', fullscreenBtn.title);
+
+    syncHeaderActionLayout();
 }
 
 function toggleFullscreen() {

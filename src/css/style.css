@@ -1141,36 +1141,62 @@ select:hover {
         font-size: 10px;
     }
 
-    /* Row 1: Logo alone */
+    /* Scenario 2 (default): enough space in row 1 */
     #logo {
         order: 1;
-        flex: 0 0 100%;
+        flex: 0 0 auto;
     }
 
-    /* Spacer not needed — logo already takes its own row */
     .spacer {
         display: none;
     }
 
-    /* Row 2: All action buttons, right-aligned */
     #playback-controls {
         order: 2;
         margin-left: auto;
     }
 
     #zoom-controls,
-    #fullscreen-btn,
-    #menu-btn {
+    #fullscreen-btn {
         order: 2;
     }
 
-    /* Row 3+: Dropdowns stacked */
-    #song-selector {
+    #menu-btn {
         order: 3;
+    }
+
+    /* Dropdowns always below action rows */
+    #song-selector {
+        order: 4;
         display: grid;
         grid-template-columns: 1fr;
         flex-basis: 100%;
         width: 100%;
+    }
+
+    /* Scenario 1: row 1 too narrow => logo + menu in row 1, rest in row 2 */
+    #header.header-actions-split #logo {
+        order: 1;
+        flex: 1 1 auto;
+        min-width: 0;
+    }
+
+    #header.header-actions-split #menu-btn {
+        order: 1;
+    }
+
+    #header.header-actions-split #playback-controls {
+        order: 2;
+        margin-left: auto;
+    }
+
+    #header.header-actions-split #zoom-controls,
+    #header.header-actions-split #fullscreen-btn {
+        order: 2;
+    }
+
+    #header.header-actions-split #song-selector {
+        order: 3;
     }
 
     #category-dropdown {
