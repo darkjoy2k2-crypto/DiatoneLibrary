@@ -81,6 +81,14 @@ function highlightNote(lineIndex, noteIndex) {
     const noteId = 'note-' + lineIndex + '-' + noteIndex;
     const noteEl = document.getElementById(noteId);
     if (noteEl) {
+        if (appState.isPlaying && appState.lastCenteredLineIndex !== lineIndex) {
+            noteEl.scrollIntoView({
+                block: 'center',
+                inline: 'nearest',
+                behavior: 'auto'
+            });
+            appState.lastCenteredLineIndex = lineIndex;
+        }
         noteEl.classList.add('active');
     }
 }

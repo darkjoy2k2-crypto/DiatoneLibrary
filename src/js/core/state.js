@@ -9,6 +9,7 @@ const appState = {
     playbackController: null,
     currentLineIndex: 0,
     currentNoteIndex: 0,
+    lastCenteredLineIndex: -1,
     playCounts: {},
     ratings: {},
     lastPlayed: {},

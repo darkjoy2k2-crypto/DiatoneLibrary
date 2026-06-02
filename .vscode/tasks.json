@@ -21,6 +21,21 @@
         "kind": "build",
         "isDefault": true
       }
+    },
+    {
+      "label": "🎵 Song Tool (Add/Replace)",
+      "type": "shell",
+      "command": "cmd",
+      "args": [
+        "/c",
+        "cd /d \"${workspaceFolder}\" && python scripts\\add_song_interactive.py"
+      ],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "focus": true
+      },
+      "problemMatcher": []
     }
   ],
   "inputs": []

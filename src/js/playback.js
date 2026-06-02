@@ -65,10 +65,12 @@ function playAudio() {
 
     if (appState.isPlaying && appState.isPaused) {
         appState.isPaused = false;
+        appState.lastCenteredLineIndex = -1;
         playTablature();
     } else if (!appState.isPlaying) {
         appState.currentLineIndex = 0;
         appState.currentNoteIndex = 0;
+        appState.lastCenteredLineIndex = -1;
         playTablature();
     }
 
@@ -90,6 +92,7 @@ function stopPlayback() {
     appState.isPaused = false;
     appState.currentLineIndex = 0;
     appState.currentNoteIndex = 0;
+    appState.lastCenteredLineIndex = -1;
 
     if (appState.playbackController) {
         appState.playbackController.abort();
