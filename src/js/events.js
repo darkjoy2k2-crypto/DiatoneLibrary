@@ -137,14 +137,22 @@ function syncHeaderActionLayout() {
     const controls = [logo, playbackControls, zoomControls, fullscreenBtn, menuBtn];
     if (controls.some((el) => !el || getComputedStyle(el).display === 'none')) return;
 
-    // Decide by real layout rows: if any action wraps below row 1, enforce split scenario.
-    const rowTop = logo.getBoundingClientRect().top;
-    const sameRowTolerance = 6;
-    const wrappedToNextRow = [playbackControls, zoomControls, fullscreenBtn, menuBtn].some((el) => {
-        return Math.abs(el.getBoundingClientRect().top - rowTop) > sameRowTolerance;
-    });
+    const headerStyle = getComputedStyle(header);
+    const gap = parseFloat(headerStyle.columnGap || headerStyle.gap || '0') || 0;
+    const paddingLeft = parseFloat(headerStyle.paddingLeft || '0') || 0;
+    const paddingRight = parseFloat(headerStyle.paddingRight || '0') || 0;
+    const availableWidth = header.clientWidth - paddingLeft - paddingRight;
 
-    if (wrappedToNextRow) {
+    const requiredWidth =
+        logo.offsetWidth +
+        playbackControls.offsetWidth +
+        zoomControls.offsetWidth +
+        fullscreenBtn.offsetWidth +
+        menuBtn.offsetWidth +
+        (gap * 5);
+
+    // Split only when it really does not fit in a single row.
+    if (requiredWidth > availableWidth) {
         header.classList.add('header-actions-split');
     }
 }
