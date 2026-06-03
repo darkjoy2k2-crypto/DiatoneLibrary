@@ -44,7 +44,7 @@ function getCurrentScrollTop() {
         mainContent ? mainContent.scrollTop : 0
     ];
 
-    ['welcome-view', 'tablature-view', 'inventory-view', 'help-view'].forEach((id) => {
+    ['welcome-view', 'tablature-view', 'inventory-view', 'generator-view', 'help-view'].forEach((id) => {
         const view = document.getElementById(id);
         if (view) {
             scrollCandidates.push(view.scrollTop || 0);
@@ -93,7 +93,7 @@ function attachHeaderAutoHideListeners() {
         mainContent.addEventListener('scroll', updateHeaderVisibility, { passive: true });
     }
 
-    ['welcome-view', 'tablature-view', 'inventory-view', 'help-view'].forEach((id) => {
+    ['welcome-view', 'tablature-view', 'inventory-view', 'generator-view', 'help-view'].forEach((id) => {
         const view = document.getElementById(id);
         if (view) {
             view.addEventListener('scroll', updateHeaderVisibility, { passive: true });
@@ -203,6 +203,10 @@ async function initApp() {
     const externalSongs = await loadSongsFromLibrary();
     const testSong = songDatabase['Test'][0];
     Object.assign(songDatabase, buildSongDatabase(externalSongs, testSong));
+
+    if (typeof loadLocalSongsIntoDatabase === 'function') {
+        loadLocalSongsIntoDatabase();
+    }
 
     initMetrics();
 
