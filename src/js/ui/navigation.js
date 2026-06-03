@@ -55,6 +55,11 @@ function selectSong(songId) {
 
 function switchView(viewName) {
     appState.currentView = viewName;
+    const header = document.getElementById('header');
+    if (header) {
+        header.classList.remove('is-hidden');
+    }
+
     document.getElementById('welcome-view').style.display = 'none';
     document.getElementById('tablature-view').style.display = 'none';
     document.getElementById('inventory-view').style.display = 'none';

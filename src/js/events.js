@@ -46,7 +46,7 @@ function getCurrentScrollTop() {
 
     ['welcome-view', 'tablature-view', 'inventory-view', 'generator-view', 'help-view'].forEach((id) => {
         const view = document.getElementById(id);
-        if (view) {
+        if (view && view.style.display !== 'none') {
             scrollCandidates.push(view.scrollTop || 0);
         }
     });
