@@ -10,13 +10,70 @@ function renderMenuTexts() {
         </svg>`;
     document.getElementById('hamburger-youtube-btn').title = t('youtubeBtn');
     document.getElementById('hamburger-youtube-btn').setAttribute('aria-label', t('youtubeBtn'));
+    document.getElementById('hamburger-export-song-btn').innerHTML = '↓';
+    document.getElementById('hamburger-export-song-btn').title = t('exportSongBtn');
+    document.getElementById('hamburger-export-song-btn').setAttribute('aria-label', t('exportSongBtn'));
     document.getElementById('hamburger-inventory-btn').innerHTML = '📚';
     document.getElementById('hamburger-inventory-btn').title = t('inventoryBtn');
     document.getElementById('hamburger-inventory-btn').setAttribute('aria-label', t('inventoryBtn'));
+    document.getElementById('hamburger-generator-btn').innerHTML = '✎';
+    document.getElementById('hamburger-generator-btn').title = t('songGeneratorTitle');
+    document.getElementById('hamburger-generator-btn').setAttribute('aria-label', t('songGeneratorTitle'));
     document.getElementById('hamburger-hard-reload-btn').innerHTML = '↻';
     document.getElementById('hamburger-hard-reload-btn').title = t('hardReloadBtn');
     document.getElementById('hamburger-hard-reload-btn').setAttribute('aria-label', t('hardReloadBtn'));
+    document.getElementById('hardreset-dialog-text').textContent = t('hardResetConfirmText');
+    document.getElementById('hardreset-cancel-btn').textContent = t('cancelBtn');
+    document.getElementById('hardreset-confirm-btn').textContent = t('understoodBtn');
     document.getElementById('help-back-btn').textContent = t('backBtn');
+}
+
+function downloadCurrentSongForTool() {
+    if (!appState.selectedSong) {
+        alert(t('selectSongFirst'));
+        return;
+    }
+
+    const song = appState.selectedSong;
+    const payload = {
+        id: song.id,
+        name: song.name,
+        artist: song.artist || '',
+        category: song.category || '',
+        page: Number.isInteger(song.page) ? song.page : song.id,
+        tablature: song.tablature
+    };
+
+    const baseName = typeof slugifySongName === 'function'
+        ? slugifySongName(song.name)
+        : (song.name || 'song').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+
+    const fileName = `${baseName || 'song'}-import.json`;
+    const blob = new Blob([JSON.stringify(payload, null, 2) + '\n'], {
+        type: 'application/json;charset=utf-8'
+    });
+
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = fileName;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(link.href);
+}
+
+function openHardResetDialog() {
+    const dialog = document.getElementById('hardreset-dialog');
+    if (dialog) {
+        dialog.style.display = 'flex';
+    }
+}
+
+function closeHardResetDialog() {
+    const dialog = document.getElementById('hardreset-dialog');
+    if (dialog) {
+        dialog.style.display = 'none';
+    }
 }
 
 function renderHamburgerButtonStates() {
@@ -58,6 +115,14 @@ function renderHamburgerButtonStates() {
 }
 
 function triggerHardReload() {
+    ['app-theme', 'app-language', 'app-show-notes', 'app-tonart', 'app-zoom-level'].forEach((key) => {
+        localStorage.removeItem(key);
+    });
+
+    Object.keys(localStorage)
+        .filter((key) => key === 'app-local-songs' || key.startsWith('local-song-'))
+        .forEach((key) => localStorage.removeItem(key));
+
     const targetUrl = new URL(window.location.href);
     targetUrl.searchParams.set('_reload', Date.now().toString());
 
@@ -177,8 +242,13 @@ function attachMenuListeners() {
     const notesBtn = document.getElementById('hamburger-notes-btn');
     const hamburgerHelpBtn = document.getElementById('hamburger-help-btn');
     const hamburgerYoutubeBtn = document.getElementById('hamburger-youtube-btn');
+    const hamburgerExportSongBtn = document.getElementById('hamburger-export-song-btn');
     const hamburgerInventoryBtn = document.getElementById('hamburger-inventory-btn');
+    const hamburgerGeneratorBtn = document.getElementById('hamburger-generator-btn');
     const hardReloadBtn = document.getElementById('hamburger-hard-reload-btn');
+    const hardResetCancelBtn = document.getElementById('hardreset-cancel-btn');
+    const hardResetConfirmBtn = document.getElementById('hardreset-confirm-btn');
+    const hardResetDialog = document.getElementById('hardreset-dialog');
     const helpBackBtn = document.getElementById('help-back-btn');
 
     menuBtn.addEventListener('click', openHamburgerMenu);
@@ -208,14 +278,41 @@ function attachMenuListeners() {
         closeAllMenus();
     });
 
+    hamburgerExportSongBtn.addEventListener('click', () => {
+        downloadCurrentSongForTool();
+        closeAllMenus();
+    });
+
     hamburgerInventoryBtn.addEventListener('click', () => {
         switchView('inventory');
         closeAllMenus();
     });
 
+    hamburgerGeneratorBtn.addEventListener('click', () => {
+        if (typeof openSongGeneratorView === 'function') {
+            openSongGeneratorView();
+        }
+        closeAllMenus();
+    });
+
     hardReloadBtn.addEventListener('click', () => {
         closeAllMenus();
+        openHardResetDialog();
+    });
+
+    hardResetCancelBtn.addEventListener('click', () => {
+        closeHardResetDialog();
+    });
+
+    hardResetConfirmBtn.addEventListener('click', () => {
+        closeHardResetDialog();
         triggerHardReload();
+    });
+
+    hardResetDialog.addEventListener('click', (event) => {
+        if (event.target === hardResetDialog) {
+            closeHardResetDialog();
+        }
     });
 
     helpBackBtn.addEventListener('click', () => {

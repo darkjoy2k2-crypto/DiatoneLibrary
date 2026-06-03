@@ -58,12 +58,14 @@ function switchView(viewName) {
     document.getElementById('welcome-view').style.display = 'none';
     document.getElementById('tablature-view').style.display = 'none';
     document.getElementById('inventory-view').style.display = 'none';
+    document.getElementById('generator-view').style.display = 'none';
     document.getElementById('help-view').style.display = 'none';
 
     const viewMap = {
         'welcome': 'welcome-view',
         'tablature': 'tablature-view',
         'inventory': 'inventory-view',
+        'generator': 'generator-view',
         'help': 'help-view'
     };
 
@@ -74,6 +76,10 @@ function switchView(viewName) {
 
     if (viewName === 'inventory') {
         renderInventory();
+    }
+
+    if (viewName === 'generator' && typeof renderSongGeneratorView === 'function') {
+        renderSongGeneratorView();
     }
 
     if (viewName === 'help') {

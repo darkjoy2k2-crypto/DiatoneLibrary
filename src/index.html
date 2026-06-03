@@ -74,6 +74,16 @@
 
         <div id="menu-overlay" class="menu-overlay" style="display: none;"></div>
 
+        <div id="hardreset-dialog" class="confirm-dialog" style="display: none;">
+            <div class="confirm-dialog-card">
+                <p id="hardreset-dialog-text"></p>
+                <div class="confirm-dialog-actions">
+                    <button id="hardreset-cancel-btn" type="button"></button>
+                    <button id="hardreset-confirm-btn" type="button"></button>
+                </div>
+            </div>
+        </div>
+
         <nav id="hamburger-menu" class="menu hamburger-menu" style="display: none;">
             <div class="menu-content">
                 <div class="hamburger-icon-row">
@@ -90,7 +100,9 @@
                     <h3 id="hamburger-rating-heading"></h3>
                     <div class="hamburger-rating-actions">
                         <button id="hamburger-youtube-btn" class="menu-icon-btn menu-square-btn"></button>
+                        <button id="hamburger-export-song-btn" class="menu-icon-btn menu-square-btn"></button>
                         <button id="hamburger-inventory-btn" class="menu-icon-btn menu-square-btn"></button>
+                        <button id="hamburger-generator-btn" class="menu-icon-btn menu-square-btn"></button>
                     </div>
                 </div>
 
@@ -122,6 +134,9 @@
                 </div>
                 <div id="inventory-container" class="inventory-container"></div>
             </div>
+            <div id="generator-view" class="generator-view" style="display: none;">
+                <div id="generator-container"></div>
+            </div>
             <div id="help-view" class="help-view" style="display: none;">
                 <div class="help-header">
                     <button id="help-back-btn" class="menu-item"></button>
@@ -151,6 +166,7 @@
     <script src="js/ui/controls.js"></script>
     <script src="js/ui/inventory.js"></script>
     <script src="js/ui/menus.js"></script>
+    <script src="js/ui/generator.js"></script>
     <script src="js/ui/help.js"></script>
 
     <!-- Playback (hängt von audio, state, ui ab) -->

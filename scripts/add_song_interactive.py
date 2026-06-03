@@ -168,6 +168,40 @@ def read_manifest(manifest_path: Path) -> list[dict]:
     return songs
 
 
+def normalize_filename(raw: str) -> str:
+    text = raw.strip()
+    if not text:
+        return ''
+    if not text.lower().endswith('.json'):
+        text += '.json'
+    return text
+
+
+def load_import_song(import_path: Path) -> dict:
+    data = json.loads(import_path.read_text(encoding='utf-8'))
+    if not isinstance(data, dict):
+        raise ValueError('Import-Datei muss ein JSON-Objekt sein.')
+
+    required = ['name', 'category', 'tablature']
+    missing = [key for key in required if key not in data]
+    if missing:
+        raise ValueError(f"Import-Datei fehlt Felder: {', '.join(missing)}")
+
+    tablature = data.get('tablature')
+    if not isinstance(tablature, list) or not all(isinstance(row, list) for row in tablature):
+        raise ValueError('Feld tablature muss ein Array von Arrays sein.')
+
+    song_id = int(data.get('id') or 0)
+    return {
+        'id': song_id,
+        'name': str(data.get('name') or '').strip(),
+        'artist': str(data.get('artist') or '').strip(),
+        'category': str(data.get('category') or '').strip() or 'Sonstige',
+        'page': int(data.get('page') or song_id or 0),
+        'tablature': tablature,
+    }
+
+
 def write_manifest(manifest_path: Path, songs: list[dict]) -> None:
     songs_sorted = sorted(songs, key=lambda e: e.get("id", 0))
     manifest_path.write_text(
@@ -200,6 +234,63 @@ def main() -> None:
     id_to_entry = {int(e["id"]): e for e in manifest if "id" in e}
 
     print("=== Diatone Song Tool ===")
+
+    import_file_raw = ask(
+        "Import-Datei (JSON, Enter fuer manuellen Modus)",
+        default="",
+        allow_empty=True,
+    )
+
+    if import_file_raw:
+        import_path = Path(import_file_raw)
+        if not import_path.is_absolute():
+            import_path = project_root / import_path
+
+        if not import_path.exists():
+            print(f"Fehler: Datei nicht gefunden: {import_path}")
+            return
+
+        try:
+            imported_song = load_import_song(import_path)
+        except Exception as exc:
+            print(f"Fehler beim Import: {exc}")
+            return
+
+        song_id = imported_song['id']
+        if song_id <= 0:
+            song_id = max(id_to_entry.keys(), default=0) + 1
+            imported_song['id'] = song_id
+
+        existing_entry = id_to_entry.get(song_id)
+        default_file = str(existing_entry.get('file')) if existing_entry else f"{slugify(imported_song['name'])}.json"
+        filename = normalize_filename(ask('Dateiname in src/library', default=default_file))
+        if not filename:
+            print('Fehler: Dateiname darf nicht leer sein.')
+            return
+
+        song_path = library_dir / filename
+        song_path.write_text(
+            json.dumps(imported_song, ensure_ascii=False, indent=2) + "\n",
+            encoding='utf-8',
+        )
+
+        if existing_entry is not None:
+            for entry in manifest:
+                if int(entry.get('id', -1)) == song_id:
+                    entry['file'] = filename
+                    break
+        else:
+            manifest.append({'file': filename, 'id': song_id})
+
+        write_manifest(manifest_path, manifest)
+
+        note_count = sum(len(row) for row in imported_song['tablature'])
+        print("\nImport fertig.")
+        print(f"ID: {song_id}")
+        print(f"Datei: src/library/{filename}")
+        print(f"Zeilen: {len(imported_song['tablature'])} | Noten: {note_count}")
+        return
+
     mode = ask_choice(
         "Modus waehlen",
         {"n": "Neue ID automatisch", "r": "Vorhandene ID ersetzen"},
