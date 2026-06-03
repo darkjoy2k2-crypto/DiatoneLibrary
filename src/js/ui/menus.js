@@ -1,20 +1,76 @@
 function renderMenuTexts() {
-    document.querySelector('#hamburger-menu h3').textContent = t('songActions');
+    renderHamburgerButtonStates();
+    document.getElementById('hamburger-help-btn').innerHTML = '?';
     document.getElementById('hamburger-help-btn').title = t('helpTitle');
     document.getElementById('hamburger-help-btn').setAttribute('aria-label', t('helpTitle'));
-    document.getElementById('hamburger-settings-heading').textContent = t('settings');
-    document.getElementById('theme-label').textContent = t('darkmodeLabel');
-    document.getElementById('language-label').textContent = t('languageLabel');
-    document.getElementById('notes-label').textContent = t('notesLabel');
-    document.getElementById('tonart-label').textContent = t('tonartLabel');
-    document.getElementById('tonart-c').textContent = t('cMajor');
-    document.getElementById('tonart-g').textContent = t('gMajor');
-    document.getElementById('tonart-d').textContent = t('dMajor');
-    document.getElementById('tonart-a').textContent = t('aMajor');
-    document.getElementById('tonart-f').textContent = t('fMajor');
-    document.getElementById('hamburger-youtube-btn').textContent = t('youtubeBtn');
-    document.getElementById('hamburger-inventory-btn').textContent = t('inventoryBtn');
+    document.getElementById('hamburger-youtube-btn').innerHTML = `
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31.8 31.8 0 0 0 0 12a31.8 31.8 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31.8 31.8 0 0 0 24 12a31.8 31.8 0 0 0-.5-5.8z" fill="#ff0000"/>
+            <path d="M9.6 15.5V8.5L15.7 12l-6.1 3.5z" fill="#ffffff"/>
+        </svg>`;
+    document.getElementById('hamburger-youtube-btn').title = t('youtubeBtn');
+    document.getElementById('hamburger-youtube-btn').setAttribute('aria-label', t('youtubeBtn'));
+    document.getElementById('hamburger-inventory-btn').innerHTML = '📚';
+    document.getElementById('hamburger-inventory-btn').title = t('inventoryBtn');
+    document.getElementById('hamburger-inventory-btn').setAttribute('aria-label', t('inventoryBtn'));
+    document.getElementById('hamburger-hard-reload-btn').innerHTML = '↻';
+    document.getElementById('hamburger-hard-reload-btn').title = t('hardReloadBtn');
+    document.getElementById('hamburger-hard-reload-btn').setAttribute('aria-label', t('hardReloadBtn'));
     document.getElementById('help-back-btn').textContent = t('backBtn');
+}
+
+function renderHamburgerButtonStates() {
+    const languageBtn = document.getElementById('hamburger-language-btn');
+    const themeBtn = document.getElementById('hamburger-theme-btn');
+    const notesBtn = document.getElementById('hamburger-notes-btn');
+
+    if (languageBtn) {
+        languageBtn.innerHTML = appState.language === 'de'
+            ? `<svg viewBox="0 0 60 36" aria-hidden="true" focusable="false">
+                    <rect width="60" height="12" y="0" fill="#000000"></rect>
+                    <rect width="60" height="12" y="12" fill="#DD0000"></rect>
+                    <rect width="60" height="12" y="24" fill="#FFCE00"></rect>
+               </svg>`
+            : `<svg viewBox="0 0 60 36" aria-hidden="true" focusable="false">
+                    <rect width="60" height="36" fill="#012169"></rect>
+                    <path d="M0 0 L60 36 M60 0 L0 36" stroke="#FFFFFF" stroke-width="8"></path>
+                    <path d="M0 0 L60 36 M60 0 L0 36" stroke="#C8102E" stroke-width="4"></path>
+                    <path d="M30 0 V36 M0 18 H60" stroke="#FFFFFF" stroke-width="12"></path>
+                    <path d="M30 0 V36 M0 18 H60" stroke="#C8102E" stroke-width="6"></path>
+               </svg>`;
+        languageBtn.title = appState.language === 'de' ? t('switchToLanguageEn') : t('switchToLanguageDe');
+        languageBtn.setAttribute('aria-label', appState.language === 'de' ? t('switchToLanguageEn') : t('switchToLanguageDe'));
+    }
+
+    if (themeBtn) {
+        themeBtn.innerHTML = appState.theme === 'light' ? '☀' : '☾';
+        themeBtn.title = appState.theme === 'light' ? t('switchToDarkMode') : t('switchToLightMode');
+        themeBtn.setAttribute('aria-label', appState.theme === 'light' ? t('switchToDarkMode') : t('switchToLightMode'));
+        themeBtn.classList.toggle('is-active', appState.theme === 'dark');
+    }
+
+    if (notesBtn) {
+        notesBtn.innerHTML = appState.showNotes ? '♪' : '♩';
+        notesBtn.title = appState.showNotes ? t('notesOff') : t('notesOn');
+        notesBtn.setAttribute('aria-label', appState.showNotes ? t('notesOff') : t('notesOn'));
+        notesBtn.classList.toggle('is-active', appState.showNotes);
+    }
+}
+
+function triggerHardReload() {
+    const targetUrl = new URL(window.location.href);
+    targetUrl.searchParams.set('_reload', Date.now().toString());
+
+    if ('caches' in window) {
+        caches.keys()
+            .then((keys) => Promise.all(keys.map((key) => caches.delete(key))))
+            .finally(() => {
+                window.location.replace(targetUrl.toString());
+            });
+        return;
+    }
+
+    window.location.replace(targetUrl.toString());
 }
 
 function openHamburgerMenu() {
@@ -38,13 +94,25 @@ function closeAllMenus() {
 }
 
 function renderHamburgerMenu() {
-    if (!appState.selectedSong) return;
+    renderHamburgerButtonStates();
 
+    const ratingHeading = document.getElementById('hamburger-rating-heading');
     const ratingDiv = document.getElementById('hamburger-rating-stars');
+    const playCountEl = document.getElementById('hamburger-play-count');
+
+    if (!appState.selectedSong) {
+        if (ratingHeading) ratingHeading.textContent = '';
+        if (ratingDiv) ratingDiv.innerHTML = '';
+        if (playCountEl) playCountEl.textContent = '';
+        return;
+    }
+
     const rating = getRating(appState.selectedSong.id);
     const playCount = getPlayCount(appState.selectedSong.id);
 
-    document.querySelector('#hamburger-menu .rating-section label').textContent = t('ratingLabel');
+    if (ratingHeading) {
+        ratingHeading.textContent = `${t('ratingHeading')}, ${playCount} ${t('viewsLabel')}`;
+    }
 
     ratingDiv.innerHTML = '';
     for (let i = 1; i <= 5; i++) {
@@ -58,34 +126,13 @@ function renderHamburgerMenu() {
         ratingDiv.appendChild(star);
     }
 
-    document.getElementById('hamburger-play-count').textContent = `${t('playedLabel')} ${playCount}x`;
+    if (playCountEl) {
+        playCountEl.textContent = '';
+    }
 }
 
 function renderSettingsMenu() {
-    const tonartRadios = document.querySelectorAll('input[name="tonart"]');
-    const flagBtns = document.querySelectorAll('.flag-btn');
-    const themeBtns = document.querySelectorAll('.theme-btn');
-    const notesToggle = document.getElementById('notes-toggle');
-
-    flagBtns.forEach(btn => {
-        btn.classList.remove('active');
-        if (btn.dataset.lang === appState.language) {
-            btn.classList.add('active');
-        }
-    });
-
-    themeBtns.forEach(btn => {
-        btn.classList.remove('active');
-        if (btn.dataset.theme === appState.theme) {
-            btn.classList.add('active');
-        }
-    });
-
-    notesToggle.checked = appState.showNotes;
-
-    tonartRadios.forEach(radio => {
-        radio.checked = radio.value === (appState.selectedTonart || 'C');
-    });
+    renderHamburgerButtonStates();
 }
 
 function handleLanguageChange(newLang) {
@@ -125,40 +172,30 @@ function handleLanguageChange(newLang) {
 function attachMenuListeners() {
     const menuBtn = document.getElementById('menu-btn');
     const overlay = document.getElementById('menu-overlay');
-    const notesToggle = document.getElementById('notes-toggle');
-    const flagBtns = document.querySelectorAll('.flag-btn');
-    const themeBtns = document.querySelectorAll('.theme-btn');
-    const tonartRadios = document.querySelectorAll('input[name="tonart"]');
+    const languageBtn = document.getElementById('hamburger-language-btn');
+    const themeBtn = document.getElementById('hamburger-theme-btn');
+    const notesBtn = document.getElementById('hamburger-notes-btn');
     const hamburgerHelpBtn = document.getElementById('hamburger-help-btn');
     const hamburgerYoutubeBtn = document.getElementById('hamburger-youtube-btn');
     const hamburgerInventoryBtn = document.getElementById('hamburger-inventory-btn');
+    const hardReloadBtn = document.getElementById('hamburger-hard-reload-btn');
     const helpBackBtn = document.getElementById('help-back-btn');
 
     menuBtn.addEventListener('click', openHamburgerMenu);
     overlay.addEventListener('click', closeAllMenus);
 
-    notesToggle.addEventListener('change', () => {
+    notesBtn.addEventListener('click', () => {
         toggleNotes();
+        renderHamburgerButtonStates();
     });
 
-    themeBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            applyTheme(btn.dataset.theme);
-            renderSettingsMenu();
-        });
+    themeBtn.addEventListener('click', () => {
+        applyTheme(appState.theme === 'light' ? 'dark' : 'light');
+        renderSettingsMenu();
     });
 
-    flagBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            handleLanguageChange(btn.dataset.lang);
-        });
-    });
-
-    tonartRadios.forEach(radio => {
-        radio.addEventListener('change', () => {
-            appState.selectedTonart = radio.value;
-            localStorage.setItem('app-tonart', radio.value);
-        });
+    languageBtn.addEventListener('click', () => {
+        handleLanguageChange(appState.language === 'de' ? 'en' : 'de');
     });
 
     hamburgerHelpBtn.addEventListener('click', () => {
@@ -176,9 +213,15 @@ function attachMenuListeners() {
         closeAllMenus();
     });
 
+    hardReloadBtn.addEventListener('click', () => {
+        closeAllMenus();
+        triggerHardReload();
+    });
+
     helpBackBtn.addEventListener('click', () => {
         switchView('welcome');
     });
 
     renderMenuTexts();
+    renderHamburgerButtonStates();
 }

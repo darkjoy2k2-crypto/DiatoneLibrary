@@ -7,9 +7,18 @@ const i18n = {
         // Hamburger Menu
         songActions: "Song-Aktionen",
         ratingLabel: "Rating für diesen Song:",
+        ratingHeading: "Rating",
         playedLabel: "▶ Aufgerufen:",
         youtubeBtn: "▶ YouTube",
         inventoryBtn: "📚 Inventarliste",
+        hardReloadBtn: "↻ Hart neu laden",
+        viewsLabel: "views",
+        switchToLanguageEn: "Auf Englisch wechseln",
+        switchToLanguageDe: "Auf Deutsch wechseln",
+        switchToLightMode: "Zum hellen Modus wechseln",
+        switchToDarkMode: "Zum dunklen Modus wechseln",
+        notesOn: "Noten an",
+        notesOff: "Noten aus",
 
         // Settings Menu
         settings: "Einstellungen",
@@ -85,9 +94,18 @@ const i18n = {
         // Hamburger Menu
         songActions: "Song Actions",
         ratingLabel: "Rating for this song:",
+        ratingHeading: "Rating",
         playedLabel: "▶ Played:",
         youtubeBtn: "▶ YouTube",
         inventoryBtn: "📚 Inventory",
+        hardReloadBtn: "↻ Hard reload",
+        viewsLabel: "views",
+        switchToLanguageEn: "Switch to English",
+        switchToLanguageDe: "Switch to German",
+        switchToLightMode: "Switch to light mode",
+        switchToDarkMode: "Switch to dark mode",
+        notesOn: "Notes on",
+        notesOff: "Notes off",
 
         // Settings Menu
         settings: "Settings",
