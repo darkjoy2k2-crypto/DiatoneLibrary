@@ -1453,4 +1453,129 @@ body.device-phone.orientation-portrait .note {
     letter-spacing: 0.01em;
 }
 
+/* Robust phone header layout based on runtime device/orientation classes */
+body.device-phone.orientation-portrait #header {
+    padding: 8px;
+    gap: 6px;
+    max-height: 240px;
+    display: grid;
+    grid-template-columns: auto auto auto auto 1fr auto;
+    grid-template-areas:
+        "logo playback zoom fullscreen . menu"
+        "song song song song song song";
+    align-items: center;
+}
+
+body.device-phone.orientation-portrait #logo {
+    grid-area: logo;
+    min-width: 0;
+}
+
+body.device-phone.orientation-portrait #playback-controls {
+    grid-area: playback;
+    margin-left: 0;
+}
+
+body.device-phone.orientation-portrait #zoom-controls {
+    grid-area: zoom;
+}
+
+body.device-phone.orientation-portrait #fullscreen-btn {
+    grid-area: fullscreen;
+}
+
+body.device-phone.orientation-portrait #menu-btn {
+    grid-area: menu;
+    margin-left: 0;
+}
+
+body.device-phone.orientation-portrait #song-selector {
+    grid-area: song;
+    display: grid;
+    grid-template-columns: 1fr;
+    width: 100%;
+}
+
+body.device-phone.orientation-portrait #header.header-actions-split {
+    display: grid;
+    grid-template-columns: 1fr auto auto auto;
+    grid-template-areas:
+        "logo . . menu"
+        ". playback zoom fullscreen"
+        "song song song song";
+    align-items: center;
+}
+
+body.device-phone.orientation-portrait #header.header-actions-split #logo {
+    grid-area: logo;
+}
+
+body.device-phone.orientation-portrait #header.header-actions-split #menu-btn {
+    grid-area: menu;
+}
+
+body.device-phone.orientation-portrait #header.header-actions-split #playback-controls {
+    grid-area: playback;
+}
+
+body.device-phone.orientation-portrait #header.header-actions-split #zoom-controls {
+    grid-area: zoom;
+}
+
+body.device-phone.orientation-portrait #header.header-actions-split #fullscreen-btn {
+    grid-area: fullscreen;
+}
+
+body.device-phone.orientation-portrait #header.header-actions-split #song-selector {
+    grid-area: song;
+}
+
+body.device-phone.orientation-landscape #header {
+    display: grid;
+    grid-template-columns: auto auto auto auto 1fr auto;
+    grid-template-areas:
+        "logo playback zoom fullscreen . menu"
+        "song song song song song song";
+    align-items: center;
+    gap: 6px;
+    padding: 8px;
+    max-height: 220px;
+}
+
+body.device-phone.orientation-landscape #logo {
+    grid-area: logo;
+    min-width: 0;
+}
+
+body.device-phone.orientation-landscape #playback-controls {
+    grid-area: playback;
+    margin-left: 0;
+}
+
+body.device-phone.orientation-landscape #zoom-controls {
+    grid-area: zoom;
+}
+
+body.device-phone.orientation-landscape #fullscreen-btn {
+    grid-area: fullscreen;
+}
+
+body.device-phone.orientation-landscape #menu-btn {
+    grid-area: menu;
+    margin-left: 0;
+}
+
+body.device-phone.orientation-landscape #song-selector {
+    grid-area: song;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    width: 100%;
+}
+
+body.device-phone.orientation-landscape #category-dropdown,
+body.device-phone.orientation-landscape #songs-dropdown {
+    width: 100%;
+}
+
 

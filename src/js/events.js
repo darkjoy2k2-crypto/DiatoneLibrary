@@ -109,8 +109,10 @@ function getOrientationMode() {
 
 function getDeviceMode() {
     const width = window.innerWidth;
+    const shortestSide = Math.min(window.innerWidth, window.innerHeight);
 
-    if (width < 786) {
+    // Use shortest side so phones stay "phone" after rotating to landscape.
+    if (shortestSide < 786) {
         return 'phone';
     }
     if (width < 1024) {
@@ -123,8 +125,9 @@ function syncHeaderActionLayout() {
     const header = document.getElementById('header');
     if (!header) return;
 
-    // Two-scenario logic is only needed on smartphone portrait.
-    const isPhonePortrait = window.matchMedia('(max-width: 785px) and (orientation: portrait)').matches;
+    // Two-scenario logic is only needed on phone portrait.
+    const isPhonePortrait = document.body.classList.contains('device-phone')
+        && document.body.classList.contains('orientation-portrait');
     header.classList.remove('header-actions-split');
     if (!isPhonePortrait) return;
 
