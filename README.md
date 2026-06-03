@@ -2,6 +2,13 @@
 
 Live website: https://darkjoy2k2-crypto.github.io/DiatoneLibrary/
 
+![Diatone Library QR Code](src/img/qr.png)
+
+# Purpose
+
+A Interactive playbook for Harmonica-Players with playback-features, library-tracking (views/stars)
+and song-geberator.
+
 ## Help (Updated)
 
 ### How to read tablature

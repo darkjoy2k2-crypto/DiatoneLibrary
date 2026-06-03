@@ -65,6 +65,16 @@ body.dark-theme {
     margin-bottom: 8px;
 }
 
+.login-qr {
+    width: 160px;
+    max-width: 70%;
+    height: auto;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 6px;
+    background-color: #ffffff;
+}
+
 .login-password-wrap {
     position: relative;
     width: 100%;
