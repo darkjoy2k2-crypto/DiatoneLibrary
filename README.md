@@ -2,7 +2,7 @@
 
 Live website: https://darkjoy2k2-crypto.github.io/DiatoneLibrary/
 
-![Diatone Library QR Code](src/img/qr.png)
+<img src="src/img/qr.png" alt="Diatone Library QR Code" width="220">
 
 # Purpose
 
